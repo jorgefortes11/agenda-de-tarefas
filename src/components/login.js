@@ -48,7 +48,7 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   return (
-    <Grid container component="main" justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
       <Grid item xs={11} sm={8} md={5} component={Paper} elevation={6} square>
         <div style={{ padding: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar style={{ margin: '10px', backgroundColor: 'primary.main' }}>
@@ -62,7 +62,7 @@ const LoginSignup = ({ onLogin }) => {
               Bem-vindo à sua agenda de tarefas
             </Typography>
           </Box>
-          <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: '20px' }}>
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -112,7 +112,7 @@ const LoginSignup = ({ onLogin }) => {
             >
               {isSignUp ? 'Criar Conta' : 'Login'}
             </Button>
-            <Grid container>
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="#" variant="body2" onClick={() => setIsSignUp(!isSignUp)}>
                   {isSignUp
