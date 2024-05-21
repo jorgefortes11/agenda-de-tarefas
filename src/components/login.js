@@ -9,12 +9,22 @@ import {
   Link,
   Box,
   Snackbar,
+  createTheme,
+  ThemeProvider,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MuiAlert from '@mui/material/Alert';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#2196f3', // Example primary color
+    },
+  },
 });
 
 const LoginSignup = ({ onLogin }) => {
@@ -48,21 +58,22 @@ const LoginSignup = ({ onLogin }) => {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
-      <Grid item xs={11} sm={8} md={5} component={Paper} elevation={6} square>
-        <div style={{ padding: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Avatar style={{ margin: '10px', backgroundColor: 'primary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {isSignUp ? 'Criar Conta' : 'Login'}
-          </Typography>
-          <Box mt={2} mb={3}>
-            <Typography variant="h6" align="center">
+    <ThemeProvider theme={theme}>
+      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+        <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, width: { xs: '90%', sm: 400 } }}>
+          <Box mt={2} mb={3} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h5" align="center" gutterBottom>
+              {isSignUp ? 'Criar Conta' : 'Login'}
+            </Typography>
+            <Typography variant="subtitle1" align="center">
               Bem-vindo à sua agenda de tarefas
             </Typography>
           </Box>
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+
+          <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -107,12 +118,12 @@ const LoginSignup = ({ onLogin }) => {
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
-              style={{ margin: '20px 0' }}
+              sx={{ mt: 3, mb: 2 }}
             >
               {isSignUp ? 'Criar Conta' : 'Login'}
             </Button>
-            <Grid container justifyContent="center">
+
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2" onClick={() => setIsSignUp(!isSignUp)}>
                   {isSignUp
@@ -122,19 +133,20 @@ const LoginSignup = ({ onLogin }) => {
               </Grid>
             </Grid>
           </form>
-        </div>
+        </Paper>
+
+        <Snackbar open={showSuccessMessage} autoHideDuration={3000} onClose={() => setShowSuccessMessage(false)}>
+          <Alert onClose={() => setShowSuccessMessage(false)} severity="success">
+            Conta criada com sucesso!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={showErrorMessage} autoHideDuration={3000} onClose={() => setShowErrorMessage(false)}>
+          <Alert onClose={() => setShowErrorMessage(false)} severity="error">
+            {errorMessage}
+          </Alert>
+        </Snackbar>
       </Grid>
-      <Snackbar open={showSuccessMessage} autoHideDuration={3000} onClose={() => setShowSuccessMessage(false)}>
-        <Alert onClose={() => setShowSuccessMessage(false)} severity="success">
-          Conta criada com sucesso!
-        </Alert>
-      </Snackbar>
-      <Snackbar open={showErrorMessage} autoHideDuration={3000} onClose={() => setShowErrorMessage(false)}>
-        <Alert onClose={() => setShowErrorMessage(false)} severity="error">
-          {errorMessage}
-        </Alert>
-      </Snackbar>
-    </Grid>
+    </ThemeProvider>
   );
 };
 
